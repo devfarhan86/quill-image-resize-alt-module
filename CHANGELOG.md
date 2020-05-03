@@ -1,5 +1,10 @@
 # Changelog
 
+## v4.0.0 - May 3, 2020
+
+- Added toolbar for custom alt text
+- Fix readme
+
 ## v3.0.0 - April 9, 2017
 
 - Position drag handles relative to editor, not document
