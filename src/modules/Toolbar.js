@@ -1,7 +1,8 @@
 import IconAlignLeft from 'quill/assets/icons/align-left.svg';
 import IconAlignCenter from 'quill/assets/icons/align-center.svg';
 import IconAlignRight from 'quill/assets/icons/align-right.svg';
-import IconHeader from 'quill/assets/icons/header.svg';
+import IconComment from 'quill/assets/icons/comment.svg';
+import IconLink from 'quill/assets/icons/link.svg';
 
 import { BaseModule } from './BaseModule';
 
@@ -25,7 +26,9 @@ export class Toolbar extends BaseModule {
 
         // Setup Buttons
         this._defineAlignments();
+        this._defineActions();
         this._addToolbarButtons();
+        this._addToolbarButtonsToActions();
     };
 
 	// The toolbar and its children will be destroyed when the overlay is removed
@@ -34,6 +37,40 @@ export class Toolbar extends BaseModule {
 	// Nothing to update on drag because we are are positioned relative to the overlay
     onUpdate = () => {};
 
+    _defineActions = () => {
+		this.actions = [
+			{
+				icon: IconLink,
+				apply: () => {
+					const findImg = Parchment.find(this.img);
+					const offset = findImg.offset(this.quill.scroll);
+					this.quill.setSelection(offset, 1, window.Quill.sources.USER);
+					const toolbar = this.quill.getModule('toolbar');
+					toolbar.container.querySelector('.ql-link').click();
+				},
+				isApplied: () => {
+					const findImg = Parchment.find(this.img);
+					return findImg.parent.domNode.tagName === 'A'
+				},
+			},
+			{
+				icon: IconComment,
+				apply: () => {
+					const findImg = Parchment.find(this.img);
+					const imgTitle = findImg.domNode.alt;
+					let title = prompt("Please enter a title (alt text)", imgTitle);
+					if (title !== null) {
+						findImg.domNode.alt = title;
+					}
+                },
+                isApplied: () => {
+					const findImg = Parchment.find(this.img);
+					return findImg.domNode.alt && findImg.domNode.alt !== '';
+				},
+			},
+		]
+    };
+    
     _defineAlignments = () => {
         this.alignments = [
             {
@@ -63,17 +100,6 @@ export class Toolbar extends BaseModule {
                 },
                 isApplied: () => FloatStyle.value(this.img) == 'right',
             },
-			{
-				icon: IconHeader,
-				apply: () => {
-					const findImg = Parchment.find(this.img);
-					const imgTitle = findImg.domNode.alt;
-					let title = prompt("Please enter a title", imgTitle);
-					if (title !== null) {
-						findImg.domNode.alt = title;
-					}
-				},
-			},
         ];
     };
 
@@ -112,6 +138,33 @@ export class Toolbar extends BaseModule {
 		});
     };
 
+    _addToolbarButtonsToActions = () => {
+		const buttons = [];
+		this.actions.forEach((action, idx) => {
+			const button = document.createElement('span');
+			buttons.push(button);
+			button.innerHTML = action.icon;
+			button.addEventListener('click', () => {
+				buttons.forEach(button => button.style.filter = '');
+				action.apply();
+				this.requestUpdate();
+			});
+			Object.assign(button.style, this.options.toolbarButtonStyles);
+			if (idx > 0) {
+				button.style.borderLeftWidth = '0';
+			} else if (idx === 0) {
+				button.style.marginLeft = '10px';
+			}
+			Object.assign(button.children[0].style, this.options.toolbarButtonSvgStyles);
+			if (action.isApplied()) {
+				// select button if previously applied
+				this._selectButton(button);
+				button.title = this.img.getAttribute('data-href');
+			}
+			this.toolbar.appendChild(button);
+		})
+    };
+    
     _selectButton = (button) => {
 		button.style.filter = 'invert(20%)';
     };
