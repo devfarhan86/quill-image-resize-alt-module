@@ -2,7 +2,7 @@ import IconAlignLeft from 'quill/assets/icons/align-left.svg';
 import IconAlignCenter from 'quill/assets/icons/align-center.svg';
 import IconAlignRight from 'quill/assets/icons/align-right.svg';
 import IconComment from 'quill/assets/icons/comment.svg';
-import IconLink from 'quill/assets/icons/link.svg';
+// import IconLink from 'quill/assets/icons/link.svg';
 
 import { BaseModule } from './BaseModule';
 
@@ -39,20 +39,20 @@ export class Toolbar extends BaseModule {
 
     _defineActions = () => {
 		this.actions = [
-			{
-				icon: IconLink,
-				apply: () => {
-					const findImg = Parchment.find(this.img);
-					const offset = findImg.offset(this.quill.scroll);
-					this.quill.setSelection(offset, 1, window.Quill.sources.USER);
-					const toolbar = this.quill.getModule('toolbar');
-					toolbar.container.querySelector('.ql-link').click();
-				},
-				isApplied: () => {
-					const findImg = Parchment.find(this.img);
-					return findImg.parent.domNode.tagName === 'A'
-				},
-			},
+			// {
+			// 	icon: IconLink,
+			// 	apply: () => {
+			// 		const findImg = Parchment.find(this.img);
+			// 		const offset = findImg.offset(this.quill.scroll);
+			// 		this.quill.setSelection(offset, 1, window.Quill.sources.USER);
+			// 		const toolbar = this.quill.getModule('toolbar');
+			// 		toolbar.container.querySelector('.ql-link').click();
+			// 	},
+			// 	isApplied: () => {
+			// 		const findImg = Parchment.find(this.img);
+			// 		return findImg.parent.domNode.tagName === 'A'
+			// 	},
+			// },
 			{
 				icon: IconComment,
 				apply: () => {
