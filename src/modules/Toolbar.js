@@ -73,10 +73,6 @@ export class Toolbar extends BaseModule {
 						findImg.domNode.alt = title;
 					}
 				},
-				isApplied: () => {
-					const findImg = Parchment.find(this.img);
-					return findImg.domNode.alt && findImg.domNode.alt !== '';
-				},
 			},
         ];
     };
