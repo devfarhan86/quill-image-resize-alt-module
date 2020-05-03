@@ -1,6 +1,8 @@
 import IconAlignLeft from 'quill/assets/icons/align-left.svg';
 import IconAlignCenter from 'quill/assets/icons/align-center.svg';
 import IconAlignRight from 'quill/assets/icons/align-right.svg';
+import IconHeader from 'quill/assets/icons/header.svg';
+
 import { BaseModule } from './BaseModule';
 
 let Parchment = {};
@@ -61,6 +63,21 @@ export class Toolbar extends BaseModule {
                 },
                 isApplied: () => FloatStyle.value(this.img) == 'right',
             },
+			{
+				icon: IconHeader,
+				apply: () => {
+					const findImg = Parchment.find(this.img);
+					const imgTitle = findImg.domNode.alt;
+					let title = prompt("Please enter a title", imgTitle);
+					if (title !== null) {
+						findImg.domNode.alt = title;
+					}
+				},
+				isApplied: () => {
+					const findImg = Parchment.find(this.img);
+					return findImg.domNode.alt && findImg.domNode.alt !== '';
+				},
+			},
         ];
     };
 
