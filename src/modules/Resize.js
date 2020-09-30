@@ -93,7 +93,13 @@ export class Resize extends BaseModule {
             }
         } else {
             // right-side resize handler; dragging right enlarges image
-            this.img.width = Math.round(this.preDragWidth + deltaX);
+            const width= Math.round(this.preDragWidth + deltaX);;
+            if(width<300){
+                this.img.width = 300;
+            }
+            else{
+                this.img.width = width;
+            }
         }
         this.requestUpdate();
     };
