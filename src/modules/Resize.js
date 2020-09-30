@@ -55,7 +55,6 @@ export class Resize extends BaseModule {
     };
 
     handleMousedown = (evt) => {
-        return;
         this.dragBox = evt.target;
         // note starting mousedown position
         this.dragStartX = evt.clientX;
@@ -77,8 +76,6 @@ export class Resize extends BaseModule {
     };
 
     handleDrag = (evt) => {
-        return; 
-        console.log("abc...");
         if (!this.img) {
             // image not set yet
             return;
