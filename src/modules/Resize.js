@@ -77,6 +77,7 @@ export class Resize extends BaseModule {
     };
 
     handleDrag = (evt) => {
+        console.log("abc...");
         if (!this.img) {
             // image not set yet
             return;
