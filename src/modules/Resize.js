@@ -77,6 +77,7 @@ export class Resize extends BaseModule {
     };
 
     handleDrag = (evt) => {
+        return; 
         console.log("abc...");
         if (!this.img) {
             // image not set yet
@@ -86,7 +87,7 @@ export class Resize extends BaseModule {
         const deltaX = evt.clientX - this.dragStartX;
         if (this.dragBox === this.boxes[0] || this.dragBox === this.boxes[3]) {
             // left-side resize handler; dragging right shrinks image
-            const width=Math.round(this.preDragWidth - deltaX)
+            const width=Math.round(this.preDragWidth - deltaX);
             if(width<300){
                 this.img.width = 300;
             }
